@@ -16,6 +16,14 @@ type Eip1193Provider = {
   request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
 };
 
+const WC_PROJECT_ID = "8aad689e851e8319dd06d8470bfb5a8e";
+const WC_METADATA = {
+  name: "Base Dino",
+  description: "Jump over obstacles as a penguin.",
+  url: "https://base-dino.vercel.app",
+  icons: ["https://base-dino.vercel.app/icon.png"],
+};
+
 const BASE_CHAIN = {
   chainId: "0x2105",
   chainName: "Base",
@@ -37,6 +45,31 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
 
   const providerRef = useRef<Eip1193Provider | null>(null);
   const [hasProvider, setHasProvider] = useState<boolean>(false);
+
+  const connectWalletConnect = useCallback(async () => {
+    if (!WC_PROJECT_ID) return null;
+    const { default: EthereumProvider } = await import(
+      "@walletconnect/ethereum-provider"
+    );
+    const wcProvider = (await EthereumProvider.init({
+      projectId: WC_PROJECT_ID,
+      chains: [8453],
+      showQrModal: true,
+      methods: [
+        "eth_requestAccounts",
+        "personal_sign",
+        "wallet_switchEthereumChain",
+        "wallet_addEthereumChain",
+        "eth_chainId",
+      ],
+      events: ["accountsChanged", "chainChanged"],
+      metadata: WC_METADATA,
+    })) as Eip1193Provider;
+    await (wcProvider as unknown as { connect?: () => Promise<void> }).connect?.();
+    providerRef.current = wcProvider;
+    setHasProvider(true);
+    return wcProvider;
+  }, []);
 
   const loadProvider = useCallback(async () => {
     try {
@@ -110,7 +143,10 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
   }, []);
 
   const connect = useCallback(async () => {
-    const provider = await loadProvider();
+    let provider = await loadProvider();
+    if (!provider) {
+      provider = await connectWalletConnect();
+    }
     if (!provider) {
       setState((prev) => ({
         ...prev,
@@ -170,7 +206,7 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
       });
       onAuthChange?.(null);
     }
-  }, [ensureBaseChain, loadProvider, onAuthChange]);
+  }, [ensureBaseChain, loadProvider, connectWalletConnect, onAuthChange]);
 
   const logout = useCallback(async () => {
     await fetch("/api/auth/logout", { method: "POST" });
