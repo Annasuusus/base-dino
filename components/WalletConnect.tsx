@@ -44,36 +44,42 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
   });
 
   const providerRef = useRef<Eip1193Provider | null>(null);
+  const isMiniAppRef = useRef(false);
   const [hasProvider, setHasProvider] = useState<boolean>(false);
 
   const connectWalletConnect = useCallback(async () => {
     if (!WC_PROJECT_ID) return null;
-    const { default: EthereumProvider } = await import(
-      "@walletconnect/ethereum-provider"
-    );
-    const wcProvider = (await EthereumProvider.init({
-      projectId: WC_PROJECT_ID,
-      chains: [8453],
-      showQrModal: true,
-      methods: [
-        "eth_requestAccounts",
-        "personal_sign",
-        "wallet_switchEthereumChain",
-        "wallet_addEthereumChain",
-        "eth_chainId",
-      ],
-      events: ["accountsChanged", "chainChanged"],
-      metadata: WC_METADATA,
-    })) as Eip1193Provider;
-    await (wcProvider as unknown as { connect?: () => Promise<void> }).connect?.();
-    providerRef.current = wcProvider;
-    setHasProvider(true);
-    return wcProvider;
+    try {
+      const { default: EthereumProvider } = await import(
+        "@walletconnect/ethereum-provider"
+      );
+      const wcProvider = (await EthereumProvider.init({
+        projectId: WC_PROJECT_ID,
+        chains: [8453],
+        showQrModal: true,
+        methods: [
+          "eth_requestAccounts",
+          "personal_sign",
+          "wallet_switchEthereumChain",
+          "wallet_addEthereumChain",
+          "eth_chainId",
+        ],
+        events: ["accountsChanged", "chainChanged"],
+        metadata: WC_METADATA,
+      })) as Eip1193Provider;
+      await (wcProvider as unknown as { connect?: () => Promise<void> }).connect?.();
+      providerRef.current = wcProvider;
+      setHasProvider(true);
+      return wcProvider;
+    } catch {
+      return null;
+    }
   }, []);
 
   const loadProvider = useCallback(async () => {
     try {
       const { sdk } = await import("@farcaster/miniapp-sdk");
+      isMiniAppRef.current = await sdk.isInMiniApp();
       const provider = (await sdk.wallet.getEthereumProvider()) as
         | Eip1193Provider
         | undefined;
@@ -144,13 +150,15 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
 
   const connect = useCallback(async () => {
     let provider = await loadProvider();
-    if (!provider) {
+    if (!provider && !isMiniAppRef.current) {
       provider = await connectWalletConnect();
     }
     if (!provider) {
       setState((prev) => ({
         ...prev,
-        error: "Гаманець недоступний у цьому середовищі",
+        error: isMiniAppRef.current
+          ? "Підключи гаманець у Base App і спробуй знову"
+          : "Гаманець недоступний у цьому середовищі",
       }));
       return;
     }
@@ -191,8 +199,14 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
       });
 
       if (!verifyRes.ok) {
-        const errorData = await verifyRes.json();
-        throw new Error(errorData?.error || "Auth failed");
+        let errorText = "Auth failed";
+        try {
+          const errorData = (await verifyRes.json()) as { error?: string };
+          if (errorData?.error) errorText = errorData.error;
+        } catch {
+          // ignore
+        }
+        throw new Error(errorText);
       }
 
       setState({ address, loading: false, error: null });
@@ -217,7 +231,7 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
   if (!hasProvider) {
     return (
       <div className={styles.wallet}>
-        <span className={styles.walletText}>MetaMask не встановлено</span>
+        <span className={styles.walletText}>Гаманець недоступний</span>
       </div>
     );
   }
