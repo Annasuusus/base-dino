@@ -39,14 +39,11 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
   const [hasProvider, setHasProvider] = useState<boolean>(false);
 
   const loadProvider = useCallback(async () => {
-    if (typeof window !== "undefined" && window.ethereum) {
-      providerRef.current = window.ethereum as Eip1193Provider;
-      setHasProvider(true);
-      return providerRef.current;
-    }
     try {
       const { sdk } = await import("@farcaster/miniapp-sdk");
-      const provider = (await sdk.wallet.getEthereumProvider()) as Eip1193Provider;
+      const provider = (await sdk.wallet.getEthereumProvider()) as
+        | Eip1193Provider
+        | undefined;
       if (provider) {
         providerRef.current = provider;
         setHasProvider(true);
@@ -54,6 +51,11 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
       }
     } catch {
       // Ignore if SDK not available
+    }
+    if (typeof window !== "undefined" && window.ethereum) {
+      providerRef.current = window.ethereum as Eip1193Provider;
+      setHasProvider(true);
+      return providerRef.current;
     }
     setHasProvider(false);
     return null;
