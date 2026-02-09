@@ -11,14 +11,14 @@ export default function Home() {
           name="fc:miniapp"
           content={JSON.stringify({
             version: "next",
-            imageUrl: "https://base-dino.vercel.app/og.svg",
+            imageUrl: "https://base-dino.vercel.app/og.png",
             button: {
               title: "Play Now",
               action: {
                 type: "launch_miniapp",
                 name: "Base Dino",
                 url: "https://base-dino.vercel.app",
-                splashImageUrl: "https://base-dino.vercel.app/splash.svg",
+                splashImageUrl: "https://base-dino.vercel.app/splash.png",
                 splashBackgroundColor: "#0b1120",
               },
             },
