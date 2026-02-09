@@ -12,6 +12,10 @@ type LeaderboardProps = {
 
 export default function Leaderboard({ refreshKey }: LeaderboardProps) {
   const [entries, setEntries] = useState<Entry[]>([]);
+  const formatLabel = (address: string) => {
+    if (address.startsWith("guest:")) return "Guest";
+    return `${address.slice(0, 6)}...`;
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -31,7 +35,7 @@ export default function Leaderboard({ refreshKey }: LeaderboardProps) {
         <ol>
           {entries.map((entry) => (
             <li key={entry.address}>
-              <span>{entry.address.slice(0, 6)}...</span>
+              <span>{formatLabel(entry.address)}</span>
               <strong>{entry.score}</strong>
             </li>
           ))}

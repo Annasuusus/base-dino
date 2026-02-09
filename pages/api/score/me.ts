@@ -11,11 +11,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const cookies = parseCookies(req.headers.cookie);
   const session = verifySession(cookies.base_dino_session);
-  if (!session) {
+  let identity = session?.address;
+  if (!identity && cookies.base_dino_guest) {
+    identity = `guest:${cookies.base_dino_guest}`;
+  }
+  if (!identity) {
     res.status(200).json({ best: null });
     return;
   }
 
-  const best = getUserBest(session.address);
+  const best = getUserBest(identity);
   res.status(200).json({ best });
 }
