@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1284" height="2778" viewBox="0 0 1284 2778">
+  <rect width="1284" height="2778" fill="#0b1120"/>
+  <rect x="90" y="120" width="1104" height="2538" rx="60" fill="#0f172a" stroke="#1e293b" stroke-width="6"/>
+  <text x="160" y="260" font-size="72" font-family="system-ui, sans-serif" fill="#e2e8f0">Base Dino</text>
+  <text x="160" y="340" font-size="36" font-family="system-ui, sans-serif" fill="#94a3b8">Jump over obstacles</text>
+  <g transform="translate(360,600)">
+    <ellipse cx="280" cy="620" rx="220" ry="260" fill="#0f172a"/>
+    <ellipse cx="280" cy="720" rx="150" ry="210" fill="#e2e8f0"/>
+    <ellipse cx="280" cy="460" rx="140" ry="160" fill="#0f172a"/>
+    <circle cx="230" cy="440" r="14" fill="#0f172a"/>
+    <circle cx="330" cy="440" r="14" fill="#0f172a"/>
+    <polygon points="320,510 400,550 320,590" fill="#f97316"/>
+  </g>
+  <rect x="180" y="2320" width="924" height="120" rx="60" fill="#22d3ee"/>
+  <text x="642" y="2400" font-size="44" font-family="system-ui, sans-serif" fill="#0f172a" text-anchor="middle">Play Now</text>
+</svg>

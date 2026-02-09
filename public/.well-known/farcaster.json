@@ -13,6 +13,12 @@
     "splashBackgroundColor": "#0b1120",
     "subtitle": "Jump over obstacles",
     "description": "A quick, fun jumping game with a penguin.",
+    "webhookUrl": "https://base-dino.vercel.app/api/webhook",
+    "screenshotUrls": [
+      "https://base-dino.vercel.app/screenshots/s1.png",
+      "https://base-dino.vercel.app/screenshots/s2.png",
+      "https://base-dino.vercel.app/screenshots/s3.png"
+    ],
     "primaryCategory": "games",
     "tags": ["game", "baseapp", "miniapp"],
     "heroImageUrl": "https://base-dino.vercel.app/og.png",

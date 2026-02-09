@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1284" height="2778" viewBox="0 0 1284 2778">
+  <rect width="1284" height="2778" fill="#0b1120"/>
+  <rect x="90" y="120" width="1104" height="2538" rx="60" fill="#0f172a" stroke="#1e293b" stroke-width="6"/>
+  <text x="160" y="260" font-size="72" font-family="system-ui, sans-serif" fill="#e2e8f0">Leaderboard</text>
+  <text x="160" y="340" font-size="36" font-family="system-ui, sans-serif" fill="#94a3b8">Top scores</text>
+  <rect x="170" y="520" width="944" height="780" rx="40" fill="#0b1220" stroke="#1e293b" stroke-width="4"/>
+  <text x="220" y="640" font-size="36" font-family="system-ui, sans-serif" fill="#e2e8f0">1. 0x12ab...fE   1024</text>
+  <text x="220" y="720" font-size="36" font-family="system-ui, sans-serif" fill="#e2e8f0">2. 0x8c9d...aa   768</text>
+  <text x="220" y="800" font-size="36" font-family="system-ui, sans-serif" fill="#e2e8f0">3. 0x7f1c...02   512</text>
+  <text x="220" y="880" font-size="36" font-family="system-ui, sans-serif" fill="#e2e8f0">4. 0xaa31...9b   420</text>
+  <text x="220" y="960" font-size="36" font-family="system-ui, sans-serif" fill="#e2e8f0">5. 0x1fbc...1d   300</text>
+</svg>

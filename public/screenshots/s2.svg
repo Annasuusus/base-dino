@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1284" height="2778" viewBox="0 0 1284 2778">
+  <rect width="1284" height="2778" fill="#0b1120"/>
+  <rect x="90" y="120" width="1104" height="2538" rx="60" fill="#0f172a" stroke="#1e293b" stroke-width="6"/>
+  <text x="160" y="260" font-size="72" font-family="system-ui, sans-serif" fill="#e2e8f0">Game Loop</text>
+  <text x="160" y="340" font-size="36" font-family="system-ui, sans-serif" fill="#94a3b8">Score and obstacles</text>
+  <rect x="170" y="520" width="944" height="360" rx="40" fill="#0b1220" stroke="#22d3ee" stroke-width="4"/>
+  <rect x="200" y="650" width="120" height="160" rx="20" fill="#38bdf8"/>
+  <rect x="860" y="690" width="80" height="120" rx="20" fill="#f97316"/>
+  <text x="200" y="980" font-size="44" font-family="system-ui, sans-serif" fill="#e2e8f0">Score: 128</text>
+  <text x="200" y="1060" font-size="32" font-family="system-ui, sans-serif" fill="#94a3b8">Best: 512</text>
+</svg>
