@@ -6,6 +6,24 @@ export default function Home() {
     <>
       <Head>
         <title>Base Dino</title>
+        <meta name="base:app_id" content="696e9eb7c0ab25addaaaf693" />
+        <meta
+          name="fc:miniapp"
+          content={JSON.stringify({
+            version: "next",
+            imageUrl: "https://base-dino.vercel.app/og.svg",
+            button: {
+              title: "Play Now",
+              action: {
+                type: "launch_miniapp",
+                name: "Base Dino",
+                url: "https://base-dino.vercel.app",
+                splashImageUrl: "https://base-dino.vercel.app/splash.svg",
+                splashBackgroundColor: "#0b1120",
+              },
+            },
+          })}
+        />
         <meta
           name="description"
           content="Мини-игра: перепрыгивай препятствия и набирай очки."

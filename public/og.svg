@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0b1120"/>
+  <rect x="80" y="80" width="1040" height="470" rx="48" fill="#0f172a" stroke="#1e293b" stroke-width="6"/>
+  <text x="140" y="200" font-size="72" font-family="system-ui, sans-serif" fill="#e2e8f0">Base Dino</text>
+  <text x="140" y="270" font-size="32" font-family="system-ui, sans-serif" fill="#94a3b8">Jump over obstacles as a penguin</text>
+  <g transform="translate(760,140)">
+    <ellipse cx="160" cy="220" rx="120" ry="150" fill="#0f172a"/>
+    <ellipse cx="160" cy="260" rx="80" ry="120" fill="#e2e8f0"/>
+    <ellipse cx="160" cy="120" rx="80" ry="90" fill="#0f172a"/>
+    <circle cx="130" cy="110" r="10" fill="#0f172a"/>
+    <circle cx="190" cy="110" r="10" fill="#0f172a"/>
+    <polygon points="180,150 230,175 180,200" fill="#f97316"/>
+    <rect x="70" y="350" width="70" height="20" rx="10" fill="#38bdf8"/>
+    <rect x="180" y="350" width="70" height="20" rx="10" fill="#38bdf8"/>
+  </g>
+</svg>

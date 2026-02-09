@@ -1,0 +1,25 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Base Dino",
+    "homeUrl": "https://base-dino.vercel.app",
+    "iconUrl": "https://base-dino.vercel.app/icon.svg",
+    "splashImageUrl": "https://base-dino.vercel.app/splash.svg",
+    "splashBackgroundColor": "#0b1120",
+    "subtitle": "Jump over obstacles",
+    "description": "A quick, fun jumping game with a penguin.",
+    "primaryCategory": "games",
+    "tags": ["game", "baseapp", "miniapp"],
+    "heroImageUrl": "https://base-dino.vercel.app/og.svg",
+    "tagline": "Play instantly",
+    "ogTitle": "Base Dino",
+    "ogDescription": "Jump over obstacles and set your best score.",
+    "ogImageUrl": "https://base-dino.vercel.app/og.svg",
+    "noindex": true
+  }
+}
