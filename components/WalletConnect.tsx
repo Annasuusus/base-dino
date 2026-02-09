@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SiweMessage } from "siwe";
 import styles from "../styles/DinoGame.module.css";
 
@@ -10,6 +10,10 @@ type AuthState = {
 
 type WalletConnectProps = {
   onAuthChange?: (address: string | null) => void;
+};
+
+type Eip1193Provider = {
+  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
 };
 
 const BASE_CHAIN = {
@@ -31,10 +35,29 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
     error: null,
   });
 
-  const hasProvider = useMemo(
-    () => typeof window !== "undefined" && !!window.ethereum,
-    []
-  );
+  const providerRef = useRef<Eip1193Provider | null>(null);
+  const [hasProvider, setHasProvider] = useState<boolean>(false);
+
+  const loadProvider = useCallback(async () => {
+    if (typeof window !== "undefined" && window.ethereum) {
+      providerRef.current = window.ethereum as Eip1193Provider;
+      setHasProvider(true);
+      return providerRef.current;
+    }
+    try {
+      const { sdk } = await import("@farcaster/miniapp-sdk");
+      const provider = (await sdk.wallet.getEthereumProvider()) as Eip1193Provider;
+      if (provider) {
+        providerRef.current = provider;
+        setHasProvider(true);
+        return provider;
+      }
+    } catch {
+      // Ignore if SDK not available
+    }
+    setHasProvider(false);
+    return null;
+  }, []);
 
   const fetchMe = useCallback(async () => {
     try {
@@ -57,24 +80,24 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
   }, [onAuthChange]);
 
   useEffect(() => {
+    loadProvider();
     fetchMe();
-  }, [fetchMe]);
+  }, [fetchMe, loadProvider]);
 
-  const ensureBaseChain = useCallback(async () => {
-    if (!window.ethereum) return;
-    const chainId = (await window.ethereum.request({
+  const ensureBaseChain = useCallback(async (provider: Eip1193Provider) => {
+    const chainId = (await provider.request({
       method: "eth_chainId",
     })) as string;
     if (chainId === BASE_CHAIN.chainId) return;
     try {
-      await window.ethereum.request({
+      await provider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: BASE_CHAIN.chainId }],
       });
     } catch (error) {
       const err = error as { code?: number };
       if (err?.code === 4902) {
-        await window.ethereum.request({
+        await provider.request({
           method: "wallet_addEthereumChain",
           params: [BASE_CHAIN],
         });
@@ -85,18 +108,19 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
   }, []);
 
   const connect = useCallback(async () => {
-    if (!window.ethereum) {
+    const provider = await loadProvider();
+    if (!provider) {
       setState((prev) => ({
         ...prev,
-        error: "MetaMask не знайдено",
+        error: "Гаманець недоступний у цьому середовищі",
       }));
       return;
     }
 
     try {
       setState((prev) => ({ ...prev, loading: true, error: null }));
-      await ensureBaseChain();
-      const accounts = (await window.ethereum.request({
+      await ensureBaseChain(provider);
+      const accounts = (await provider.request({
         method: "eth_requestAccounts",
       })) as string[];
       const address = accounts?.[0];
@@ -117,7 +141,7 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
       });
       const message = siweMessage.prepareMessage();
 
-      const signature = (await window.ethereum.request({
+      const signature = (await provider.request({
         method: "personal_sign",
         params: [message, address],
       })) as string;
@@ -144,7 +168,7 @@ export default function WalletConnect({ onAuthChange }: WalletConnectProps) {
       });
       onAuthChange?.(null);
     }
-  }, [ensureBaseChain, onAuthChange]);
+  }, [ensureBaseChain, loadProvider, onAuthChange]);
 
   const logout = useCallback(async () => {
     await fetch("/api/auth/logout", { method: "POST" });

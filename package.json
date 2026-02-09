@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@farcaster/miniapp-sdk": "^0.2.3",
     "ethers": "6.12.1",
     "next": "16.1.6",
     "react": "18.3.1",
