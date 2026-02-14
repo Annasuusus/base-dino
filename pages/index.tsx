@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Base Dino</title>
+        <title>Base Games — Dino & Морський бій</title>
         <meta name="base:app_id" content="696e9eb7c0ab25addaaaf693" />
         <meta
           name="fc:miniapp"
@@ -16,7 +16,7 @@ export default function Home() {
               title: "Play Now",
               action: {
                 type: "launch_miniapp",
-                name: "Base Dino",
+                name: "Base Games",
                 url: "https://base-dino.vercel.app",
                 splashImageUrl: "https://base-dino.vercel.app/splash.png",
                 splashBackgroundColor: "#0b1120",
@@ -26,24 +26,40 @@ export default function Home() {
         />
         <meta
           name="description"
-          content="Мини-игра: перепрыгивай препятствия и набирай очки."
+          content="Base Dino та Морський бій — дві гри в Base App."
         />
       </Head>
       <main className="page">
-        <section className="card">
-          <h1 className="title">Base Dino</h1>
-          <p className="subtitle">
-            Мини-игра в стиле офлайн-динозавра из Chrome.
-          </p>
-          <Link className="primaryLink" href="/game">
-            Играть
-          </Link>
-          <div className="tips">
-            <span>Space / ↑ — прыжок</span>
-            <span>R — рестарт</span>
-            <span>Тап — прыжок</span>
-          </div>
-        </section>
+        <div className="cards">
+          <section className="card">
+            <h1 className="title">Base Dino</h1>
+            <p className="subtitle">
+              Міні-гра в стилі офлайн-динозавра з Chrome.
+            </p>
+            <Link className="primaryLink" href="/game">
+              Грати
+            </Link>
+            <div className="tips">
+              <span>Space / ↑ — стрибок</span>
+              <span>R — рестарт</span>
+              <span>Тап — стрибок</span>
+            </div>
+          </section>
+          <section className="card">
+            <h1 className="title">Морський бій</h1>
+            <p className="subtitle">
+              Класична гра проти компʼютера.
+            </p>
+            <Link className="primaryLink" href="/battleship">
+              Грати
+            </Link>
+            <div className="tips">
+              <span>Клік — постріл по ворожому полю</span>
+              <span>Твоя сітка зліва</span>
+              <span>Ворожа сітка справа</span>
+            </div>
+          </section>
+        </div>
       </main>
     </>
   );
