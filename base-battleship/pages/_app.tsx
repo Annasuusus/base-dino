@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import { useEffect } from "react";
 import "../styles/globals.css";
 
@@ -15,5 +16,12 @@ export default function App({ Component, pageProps }: AppProps) {
     ready();
   }, []);
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Head>
+        <meta name="base:app_id" content="696e9eb7c0ab25addaaaf693" />
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }
