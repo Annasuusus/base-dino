@@ -1,5 +1,9 @@
 # Деплой Морський бій → Base App
 
+## 0. Маніфест
+
+Маніфест генерується при `npm run build` в `public/.well-known/farcaster.json`. Rewrite/redirect для `.well-known` на Vercel не працюють — тільки статичний файл.
+
 ## 1. Git автор (обовʼязково!)
 
 ```bash
