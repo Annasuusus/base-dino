@@ -1,43 +1,52 @@
-# Як розгорнути Морський бій онлайн
+# Деплой Морський бій → Base App
 
-## Варіант 1: Vercel (рекомендовано)
-
-1. **Зареєструйся на [vercel.com](https://vercel.com)** (безкоштовно, можна через GitHub).
-
-2. **Завантаж проєкт:**
-   - Зайди на [vercel.com/new](https://vercel.com/new)
-   - Якщо проєкт у GitHub: підключи репозиторій і вкажи **Root Directory** → `base-battleship`
-   - Або: встанови Vercel CLI (`npm i -g vercel`), перейди в папку проєкту і запусти:
-     ```bash
-     cd base-battleship
-     vercel
-     ```
-
-3. **Змінна оточення (опційно, але бажано):**
-   - У налаштуваннях проєкту Vercel → Settings → Environment Variables
-   - Додай: `AUTH_SECRET` = будь-який довгий випадковий рядок (для безпечної авторизації гаманця)
-
-4. Після деплою отримаєш посилання типу `https://base-battleship-xxx.vercel.app`
-
----
-
-## Варіант 2: Netlify
-
-1. Зареєструйся на [netlify.com](https://netlify.com)
-2. New site → Import from Git або drag & drop папки `base-battleship`
-3. Build command: `npm run build`
-4. Publish directory: `.next`
-5. Для Next.js на Netlify може знадобитися плагін `@netlify/plugin-nextjs`
-
----
-
-## Варіант 3: Власний сервер
+## 1. Git автор (обовʼязково!)
 
 ```bash
-cd base-battleship
-npm install
-npm run build
-AUTH_SECRET=твій-секрет npm run start
+git config --global user.name "YourName"
+git config --global user.email "***@users.noreply.github.com"
 ```
 
-Сервер працюватиме на порту 3001.
+## 2. Vercel — вимкнути Deployment Protection
+
+Vercel Dashboard → проект mygame-iota-one → **Settings** → **Deployment Protection** → **Vercel Authentication** → **Off** → Save.
+
+Без цього Base не зможе доступитись до `/.well-known/farcaster.json`.
+
+## 3. Env змінні на Vercel
+
+Settings → Environment Variables:
+
+| Key | Value |
+|-----|-------|
+| `NEXT_PUBLIC_APP_URL` | `https://mygame-iota-one.vercel.app` |
+| `FARCASTER_HEADER` | *(порожньо спочатку, додати після Verify)* |
+| `FARCASTER_PAYLOAD` | *(порожньо спочатку)* |
+| `FARCASTER_SIGNATURE` | *(порожньо спочатку)* |
+
+## 4. Push і деплой
+
+```bash
+git add -A && git commit -m "fix: manifest for Base" && git push
+```
+
+Або пустий коміт з правильним автором:
+```bash
+git commit --allow-empty -m "vercel deploy" --author="YourName <***@users.noreply.github.com>"
+git push
+```
+
+## 5. Account Association
+
+1. Переконайсь, що деплой живий і `https://mygame-iota-one.vercel.app` відкривається
+2. Перейди на [base.dev/preview](https://www.base.dev/preview?tab=account)
+3. Встав `https://mygame-iota-one.vercel.app` в App URL → Submit
+4. Натисни **Verify** і пройди інструкції
+5. Скопіюй `accountAssociation` (header, payload, signature)
+6. Додай їх у Vercel env: `FARCASTER_HEADER`, `FARCASTER_PAYLOAD`, `FARCASTER_SIGNATURE`
+7. Redeploy (або push будь-якої зміни)
+
+## 6. Перевірка
+
+- `https://mygame-iota-one.vercel.app/.well-known/farcaster.json` — має віддавати JSON
+- base.dev/preview → Metadata tab — без помилок

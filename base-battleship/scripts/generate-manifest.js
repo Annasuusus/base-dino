@@ -1,4 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+#!/usr/bin/env node
+/**
+ * Generates farcaster.json from env vars at build time.
+ * Vercel exposes FARCASTER_HEADER, FARCASTER_PAYLOAD, FARCASTER_SIGNATURE.
+ */
+const fs = require("fs");
+const path = require("path");
 
 const ROOT_URL = process.env.NEXT_PUBLIC_APP_URL || "https://mygame-iota-one.vercel.app";
 
@@ -18,7 +24,7 @@ const manifest = {
     subtitle: "Класична гра проти комп'ютера",
     description: "Морський бій — топи кораблі ворожого флоту!",
     webhookUrl: `${ROOT_URL}/api/webhook`,
-    screenshotUrls: [] as string[],
+    screenshotUrls: [],
     primaryCategory: "games",
     tags: ["game", "battleship", "miniapp"],
     heroImageUrl: `${ROOT_URL}/og.svg`,
@@ -30,13 +36,7 @@ const manifest = {
   },
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "GET") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
-
-  res.setHeader("Content-Type", "application/json");
-  res.setHeader("Cache-Control", "public, max-age=3600");
-  res.status(200).json(manifest);
-}
+const dir = path.join(__dirname, "..", "public", ".well-known");
+fs.mkdirSync(dir, { recursive: true });
+fs.writeFileSync(path.join(dir, "farcaster.json"), JSON.stringify(manifest, null, 0));
+console.log("Generated public/.well-known/farcaster.json");

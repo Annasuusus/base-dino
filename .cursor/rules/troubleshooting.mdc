@@ -1,0 +1,44 @@
+---
+description: Mac/Vercel/Next.js troubleshooting — типові проблеми і розвʼязання
+alwaysApply: true
+---
+
+# Troubleshooting (Mac, Vercel, Next.js)
+
+## 1. Vercel ↔ GitHub — автор комітів
+
+**Симптом:** `Error: Git author ***@... must have access to the team ***'s projects`; Vercel не бачить актуальні коміти.
+
+**Причина:** На Mac в git стоїть `user.email` типу `***@noutbuk-***.home`. Vercel перевіряє автора коміту і відхиляє деплой, якщо автор не має доступу.
+
+**Рішення:**
+```bash
+git config --global user.name "YourName"
+git config --global user.email "***@users.noreply.github.com"
+
+# Пустий коміт з правильним автором:
+git commit --allow-empty -m "vercel deploy" --author="YourName <***@users.noreply.github.com>"
+git push
+npx vercel --prod
+```
+
+## 2. Локальний запуск: EPERM, порти, file watchers
+
+Це обмеження sandbox/середовища, не код.
+
+## 3. SSR + localStorage
+
+`localStorage.getItem is not a function` — через SSR. Рішення: shim + `ssr: false` для client-only частин.
+
+## 4. Next.js: конфлікт app/ і pages/
+
+Призводить до 404. Рішення: міграція на один роутер (Pages або App).
+
+## 5. Vercel build: Hardhat / TS
+
+Якщо падає через `contracts/`, `scripts/`, `hardhat.config.ts` — виключити їх у `tsconfig.json` (exclude).
+
+## 6. Base App: Manifest not found
+
+- **Vercel Deployment Protection** — вимкнути (Settings → Deployment Protection → Off)
+- Маніфест: `/.well-known/farcaster.json` генерується при build з env `FARCASTER_HEADER`, `FARCASTER_PAYLOAD`, `FARCASTER_SIGNATURE`
