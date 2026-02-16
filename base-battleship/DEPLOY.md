@@ -2,7 +2,9 @@
 
 ## 0. Маніфест
 
-Маніфест генерується при `npm run build` в `public/.well-known/farcaster.json`. Rewrite/redirect для `.well-known` на Vercel не працюють — тільки статичний файл.
+Маніфест віддається через App Router route: `app/.well-known/farcaster.json/route.ts`.
+
+**Схема за [Base docs](https://docs.base.org/mini-apps/core-concepts/manifest):** icon PNG 1024×1024, hero/og 1200×630, screenshotUrls portrait 1284×2778. Зараз використовуємо SVG; для продакшену — згенеруй PNG через [miniappassets.com](https://www.miniappassets.com/).
 
 ## 1. Git автор (обовʼязково!)
 

@@ -24,7 +24,7 @@ const manifest = {
     subtitle: "Класична гра проти комп'ютера",
     description: "Морський бій — топи кораблі ворожого флоту!",
     webhookUrl: `${ROOT_URL}/api/webhook`,
-    screenshotUrls: [],
+    screenshotUrls: [`${ROOT_URL}/og.svg`],
     primaryCategory: "games",
     tags: ["game", "battleship", "miniapp"],
     heroImageUrl: `${ROOT_URL}/og.svg`,

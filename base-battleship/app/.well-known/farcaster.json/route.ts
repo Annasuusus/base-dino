@@ -1,6 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
-const ROOT_URL = process.env.NEXT_PUBLIC_APP_URL || "https://mygame-iota-one.vercel.app";
+const ROOT_URL =
+  process.env.NEXT_PUBLIC_APP_URL || "https://mygame-iota-one.vercel.app";
 
 const manifest = {
   accountAssociation: {
@@ -30,13 +31,12 @@ const manifest = {
   },
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "GET") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
-
-  res.setHeader("Content-Type", "application/json");
-  res.setHeader("Cache-Control", "public, max-age=3600");
-  res.status(200).json(manifest);
+export async function GET() {
+  return NextResponse.json(manifest, {
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=3600",
+    },
+  });
 }
