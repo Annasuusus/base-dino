@@ -9,19 +9,19 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <meta name="base:app_id" content="696e9eb7c0ab25addaaaf693" />
+        <meta name="base:app_id" content="696e9eb7c0ab25addaaaf693" key="base-app-id" />
         <meta
           name="fc:miniapp"
           content={JSON.stringify({
             version: "next",
-            imageUrl: `${rootUrl}/og.svg`,
+            imageUrl: `${rootUrl}/og.png`,
             button: {
               title: "Грати",
               action: {
                 type: "launch_miniapp",
                 name: "Морський бій",
                 url: rootUrl,
-                splashImageUrl: `${rootUrl}/splash.svg`,
+                splashImageUrl: `${rootUrl}/splash.png`,
                 splashBackgroundColor: "#0b1120",
               },
             },
@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <meta property="og:title" content="Морський бій" />
         <meta property="og:description" content="Класична гра Морський бій проти комп'ютера." />
-        <meta property="og:image" content={`${rootUrl}/og.svg`} />
+        <meta property="og:image" content={`${rootUrl}/og.png`} />
       </Head>
       <Component {...pageProps} />
     </>
