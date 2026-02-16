@@ -102,6 +102,18 @@ export default function BattleshipGame() {
   }, [startGame]);
 
   useEffect(() => {
+    const ready = async () => {
+      try {
+        const { sdk } = await import("@farcaster/miniapp-sdk");
+        await sdk.actions.ready();
+      } catch {
+        // Ignore if not in Base app
+      }
+    };
+    ready();
+  }, []);
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = Number(
         localStorage.getItem("base-battleship-best") || "0"

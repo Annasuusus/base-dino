@@ -1,25 +1,35 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useEffect } from "react";
 import "../styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    const ready = async () => {
-      try {
-        const { sdk } = await import("@farcaster/miniapp-sdk");
-        await sdk.actions.ready();
-      } catch {
-        // Ignore if SDK not available
-      }
-    };
-    ready();
-  }, []);
+  const rootUrl =
+    process.env.NEXT_PUBLIC_APP_URL || "https://mygame-iota-one.vercel.app";
 
   return (
     <>
       <Head>
         <meta name="base:app_id" content="696e9eb7c0ab25addaaaf693" />
+        <meta
+          name="fc:miniapp"
+          content={JSON.stringify({
+            version: "next",
+            imageUrl: `${rootUrl}/og.svg`,
+            button: {
+              title: "Грати",
+              action: {
+                type: "launch_miniapp",
+                name: "Морський бій",
+                url: rootUrl,
+                splashImageUrl: `${rootUrl}/splash.svg`,
+                splashBackgroundColor: "#0b1120",
+              },
+            },
+          })}
+        />
+        <meta property="og:title" content="Морський бій" />
+        <meta property="og:description" content="Класична гра Морський бій проти комп'ютера." />
+        <meta property="og:image" content={`${rootUrl}/og.svg`} />
       </Head>
       <Component {...pageProps} />
     </>
