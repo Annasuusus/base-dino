@@ -2,9 +2,10 @@
 
 ## 0. Маніфест
 
-Маніфест віддається через App Router route: `app/.well-known/farcaster.json/route.ts`.
+- **Rewrite** `/.well-known/farcaster.json` → `/api/farcaster-manifest` (next.config + vercel.json)
+- **Static fallback:** `public/.well-known/farcaster.json` (генерується при build)
 
-**Схема за [Base docs](https://docs.base.org/mini-apps/core-concepts/manifest):** icon PNG 1024×1024, hero/og 1200×630, screenshotUrls portrait 1284×2778. Зараз використовуємо SVG; для продакшену — згенеруй PNG через [miniappassets.com](https://www.miniappassets.com/).
+**Якщо 404 на Vercel:** Vercel може блокувати `.well-known`. Альтернатива — [Cloudflare Pages](https://pages.cloudflare.com/): підключи репо, Root = `base-battleship`, Build = `npm run build`, Framework = Next.js.
 
 ## 1. Git автор (обовʼязково!)
 

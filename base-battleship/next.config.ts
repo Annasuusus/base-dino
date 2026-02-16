@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
-// Vercel блокує rewrite/redirect для .well-known — тільки статичний файл з public/
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/.well-known/farcaster.json",
+        destination: "/api/farcaster-manifest",
+      },
+    ];
+  },
   async headers() {
     return [
       {
