@@ -2,7 +2,21 @@
 
 Гра **працює** на Base, бо деплой на **Cloudflare Pages** — там шлях `/.well-known/farcaster.json` віддається нормально (на Vercel він зарезервований і не працює).
 
-## Деплой на Cloudflare Pages (5 хвилин)
+## Автодеплой через GitHub Actions (зроби один раз)
+
+1. **Cloudflare:** [dash.cloudflare.com](https://dash.cloudflare.com) → профіль (праворуч) → **My Profile** → **API Tokens** → **Create Token** → шаблон **Edit Cloudflare Workers** або **Custom** з правами **Account** → **Cloudflare Pages: Edit** → Create Token. Скопіюй токен.
+2. **Cloudflare Account ID:** Dashboard → обрати будь-який сайт/проєкт → права панель **API** → **Account ID**.
+3. **GitHub:** репо **Annasuusus/base-dino** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
+   - `CLOUDFLARE_API_TOKEN` — вставити токен з кроку 1
+   - `CLOUDFLARE_ACCOUNT_ID` — вставити ID з кроку 2
+4. Зберегти. Після цього кожен **push** у папку `battleship-cf` (або ручний запуск **Actions** → **Deploy battleship-cf to Cloudflare Pages** → **Run workflow**) зробить збірку і деплой на Cloudflare Pages.
+5. Готовий URL: **https://battleship-cf.pages.dev** (проєкт створиться при першому деплої).
+
+Опційно (для Base Verify): додай секрети `FARCASTER_HEADER`, `FARCASTER_PAYLOAD`, `FARCASTER_SIGNATURE` — тоді маніфест буде з заповненою accountAssociation.
+
+---
+
+## Деплой вручну на Cloudflare Pages (5 хвилин)
 
 1. Зайди на [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
 
