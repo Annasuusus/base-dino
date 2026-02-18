@@ -2,10 +2,10 @@
 
 ## 0. Маніфест
 
-- **Rewrite** `/.well-known/farcaster.json` → `/api/farcaster-manifest` (next.config + vercel.json)
-- **Static fallback:** `public/.well-known/farcaster.json` (генерується при build)
+- **Важливо:** на Vercel шлях `/.well-known` зарезервований — rewrites/redirects для нього **не працюють**. Маніфест має бути **статичним файлом**: `public/.well-known/farcaster.json`, який генерується під час **build** скриптом `scripts/generate-manifest.js`.
+- Обовʼязково задай **FARCASTER_HEADER**, **FARCASTER_PAYLOAD**, **FARCASTER_SIGNATURE** у Vercel **до** деплою (або перед Redeploy), щоб у згенерованому файлі була коректна accountAssociation.
 
-**Якщо 404 на Vercel:** Vercel може блокувати `.well-known`. Альтернатива — [Cloudflare Pages](https://pages.cloudflare.com/): підключи репо, Root = `base-battleship`, Build = `npm run build`, Framework = Next.js.
+**Якщо 404:** переконайся, що Root Directory проєкту = `base-battleship` (щоб build виконував `generate-manifest.js`). Альтернатива — [Cloudflare Pages](https://pages.cloudflare.com/): Root = `base-battleship`, Build = `npm run build`.
 
 ## 1. Git автор (обовʼязково!)
 
@@ -31,7 +31,7 @@ Settings → Environment Variables:
 | `FARCASTER_PAYLOAD` | *(значення з Account association)* |
 | `FARCASTER_SIGNATURE` | *(значення з Account association)* |
 
-**Якщо вже є `accountAssociation` (header, payload, signature):** встав їх у ці три змінні як є — без лапок. Після збереження змінних зроби **Redeploy** (Deployments → … → Redeploy). Маніфест `/.well-known/farcaster.json` тепер віддається з API і бере ці значення під час запиту, тож "Manifest not found" зникне після коректного заповнення.
+**Якщо вже є `accountAssociation`:** встав header, payload, signature у ці три змінні. Після збереження обовʼязково зроби **Redeploy** — маніфест генерується під час build, тому без нового деплою зміни не потраплять у файл.
 
 ## 4. Push і деплой
 
