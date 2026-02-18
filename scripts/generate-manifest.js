@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Generates farcaster.json from env vars at build time.
- * Vercel exposes FARCASTER_HEADER, FARCASTER_PAYLOAD, FARCASTER_SIGNATURE.
+ * Generates public/.well-known/farcaster.json from env at build time.
+ * Base: https://docs.base.org/mini-apps/core-concepts/manifest
  */
 const fs = require("fs");
 const path = require("path");
@@ -33,7 +33,6 @@ const manifest = {
     splashBackgroundColor: splashBg,
     subtitle: miniappSubtitle,
     description: miniappDescription,
-    webhookUrl: `${ROOT_URL}/api/webhook`,
     screenshotUrls: [`${ROOT_URL}${ogPath}`],
     primaryCategory: miniappCategory,
     tags: miniappTags,

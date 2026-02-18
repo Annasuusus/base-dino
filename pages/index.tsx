@@ -5,8 +5,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Base Games — Dino & Морський бій</title>
         <meta name="base:app_id" content="696e9eb7c0ab25addaaaf693" />
+        <title>Base Games — Dino & Морський бій</title>
         <meta
           name="fc:miniapp"
           content={JSON.stringify({

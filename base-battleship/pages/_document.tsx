@@ -1,13 +1,11 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
-// Base verification — має бути в початковому HTML
-const BASE_APP_ID = "696e9eb7c0ab25addaaaf693";
-
 export default function Document() {
   return (
     <Html lang="uk">
       <Head>
-        <meta name="base:app_id" content={BASE_APP_ID} key="base-app-id" />
+        {/* Перший тег у document — валідатор Base бачить його в початковому HTML */}
+        <meta name="base:app_id" content="696e9eb7c0ab25addaaaf693" />
       </Head>
       <body>
         <Main />

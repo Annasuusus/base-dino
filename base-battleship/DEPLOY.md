@@ -27,9 +27,11 @@ Settings → Environment Variables:
 | Key | Value |
 |-----|-------|
 | `NEXT_PUBLIC_APP_URL` | `https://mygame-iota-one.vercel.app` |
-| `FARCASTER_HEADER` | *(порожньо спочатку, додати після Verify)* |
-| `FARCASTER_PAYLOAD` | *(порожньо спочатку)* |
-| `FARCASTER_SIGNATURE` | *(порожньо спочатку)* |
+| `FARCASTER_HEADER` | *(значення з Account association після Verify)* |
+| `FARCASTER_PAYLOAD` | *(значення з Account association)* |
+| `FARCASTER_SIGNATURE` | *(значення з Account association)* |
+
+**Якщо вже є `accountAssociation` (header, payload, signature):** встав їх у ці три змінні як є — без лапок. Після збереження змінних зроби **Redeploy** (Deployments → … → Redeploy). Маніфест `/.well-known/farcaster.json` тепер віддається з API і бере ці значення під час запиту, тож "Manifest not found" зникне після коректного заповнення.
 
 ## 4. Push і деплой
 

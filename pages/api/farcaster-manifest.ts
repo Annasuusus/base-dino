@@ -1,5 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+/**
+ * Base manifest: https://docs.base.org/mini-apps/core-concepts/manifest
+ * Must be available at https://your-domain.com/.well-known/farcaster.json
+ */
 function getManifest() {
   const ROOT_URL = process.env.NEXT_PUBLIC_APP_URL || "https://mygame-iota-one.vercel.app";
   const miniappName = process.env.MINIAPP_NAME || "Морський бій";

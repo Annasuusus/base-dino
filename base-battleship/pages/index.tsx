@@ -5,8 +5,9 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Морський бій — Base</title>
+        {/* Base verification — має бути першим у Head на homepage */}
         <meta name="base:app_id" content="696e9eb7c0ab25addaaaf693" />
+        <title>Морський бій — Base</title>
         <meta
           name="fc:miniapp"
           content={JSON.stringify({

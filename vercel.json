@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/.well-known/farcaster.json", "destination": "/api/farcaster-manifest" }
+  ]
+}
